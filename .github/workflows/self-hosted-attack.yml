@@ -8,14 +8,17 @@ jobs:
     runs-on: [self-hosted, azure]
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
           
       - name: Bundle Install (triggers gemspec execution)
         run: |
-          bundle install
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use system Ruby
+          which ruby
+          ruby --version
+          
+          # Install bundler if needed
+          gem install bundler 2>/dev/null || sudo gem install bundler
+          
+          # Run bundle install - this will evaluate the gemspec!
+          bundle install 2>&1 || true
+          
+          echo "Done"
