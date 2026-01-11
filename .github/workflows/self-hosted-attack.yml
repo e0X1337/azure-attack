@@ -14,9 +14,7 @@ jobs:
           # Use system Ruby
           which ruby
           ruby --version
-          
-          # Install bundler if needed
-          gem install bundler 2>/dev/null || sudo gem install bundler
+          which bundle
           
           # Run bundle install - this will evaluate the gemspec!
           bundle install 2>&1 || true
